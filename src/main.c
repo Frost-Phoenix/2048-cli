@@ -15,7 +15,7 @@ int main(/* int argc, char *argv[] */) {
     printf("2048!\n\n");
     srand(time(NULL));
 
-    int board[SIZE][SIZE];
+    u32 board[SIZE][SIZE];
     board_init(board);
     board_print(board);
 
