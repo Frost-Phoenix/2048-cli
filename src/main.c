@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <time.h>
 
+#include "../include/commun.h"
 #include "../include/board.h"
 
 #define clear() printf("\033[H\033[J")
