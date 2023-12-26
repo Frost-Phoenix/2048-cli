@@ -4,7 +4,15 @@
 #include "../include/board.h"
 
 
-static bool boar_add_piece(u32 board[SIZE][SIZE]) {
+/******************************************************
+ *                 Private functions                  *
+ ******************************************************/
+
+static bool _add_piece(u32 board[SIZE][SIZE]);
+static bool _move_piece_up(u32 board[SIZE][SIZE], u32 nb, u8 r, u8 c);
+static void _rotate_board(u32 board[SIZE][SIZE]);
+
+static bool _add_piece(u32 board[SIZE][SIZE]) {
 
     u32 len = SIZE * SIZE;
     u32 valid_cells[len][2];
@@ -31,6 +39,35 @@ static bool boar_add_piece(u32 board[SIZE][SIZE]) {
     return true;
 }
 
+static bool _move_piece_up(u32 board[SIZE][SIZE], u32 nb, u8 r, u8 c) {
+
+    bool has_move;
+
+    for (i32 j = r - 1; j >= 0; j--) {
+        if (board[j][c] == 0) {
+            has_move = true;
+            board[j][c] = nb;
+            board[j+1][c] = 0;
+        } else if (board[j][c] == nb) {
+            has_move = true;
+            nb *= 2;
+            board[j][c] = nb;
+            board[j+1][c] = 0;
+        }
+    }
+    
+    return has_move;
+}
+
+static void _rotate_board(u32 board[SIZE][SIZE]) {
+    
+}
+
+
+/******************************************************
+ *                 Public functions                   *
+ ******************************************************/
+
 void board_init(u32 board[SIZE][SIZE]) {
 
     for (u32 i = 0; i < SIZE; i++) {
@@ -39,17 +76,35 @@ void board_init(u32 board[SIZE][SIZE]) {
         }
     }
 
-    boar_add_piece(board);
-    boar_add_piece(board);
+    _add_piece(board);
+    _add_piece(board);
 }
 
-void board_print(u32 board[SIZE][SIZE]) {
+bool board_move_up(u32 board[SIZE][SIZE]) {
+
+    bool has_move = false;
     
-    for (u32 i = 0; i < SIZE; i++) {
-        for (u32 j = 0; j < SIZE; j++) {
-            printf("%d ", board[i][j]);
+    for (u8 c = 0; c < SIZE; c++) {
+        for (u8 r = 1; r < SIZE; r++) {
+            u32 nb = board[r][c];
+
+            if (nb != 0) {
+                has_move = _move_piece_up(board, nb, r, c);
+            }
         }
-        printf("\n");
     }
-    printf("\n");
+    
+    return has_move;
+}
+
+bool board_move_down(u32 board[SIZE][SIZE]) {
+    return true;
+}
+
+bool board_move_left(u32 board[SIZE][SIZE]) {
+    return true;
+}
+
+bool board_move_right(u32 board[SIZE][SIZE]) {
+    return true;
 }

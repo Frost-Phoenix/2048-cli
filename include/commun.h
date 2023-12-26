@@ -16,4 +16,7 @@ typedef float   f32;
 typedef double  f64;
 
 
+#define SIZE 4
+
+
 #endif
