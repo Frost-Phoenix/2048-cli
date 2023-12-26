@@ -12,6 +12,7 @@ typedef struct Cell
 
 
 void board_init(u32 board[SIZE][SIZE]);
+bool board_add_piece(u32 board[SIZE][SIZE]);
 
 bool board_move_up(u32 board[SIZE][SIZE]);
 bool board_move_down(u32 board[SIZE][SIZE]);

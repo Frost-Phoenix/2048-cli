@@ -39,10 +39,10 @@ int main(/* int argc, char *argv[] */) {
     print_board(board);
 
     char c;
-    bool has_move;
 
     while (true) {
         c = getchar();
+        bool has_move;
 
         if (c == -1) {
             puts("\nError! Cannot read keyboard input!");
@@ -55,17 +55,17 @@ int main(/* int argc, char *argv[] */) {
         
         switch (c)
         {
-        case 68:  // left arrow
-            has_move = board_move_up(board);
-            break;
-        case 67:  // right arrow
-            has_move = board_move_up(board);
-            break;
         case 65:  // up arrow
             has_move = board_move_up(board);
             break;
         case 66:  // down arrow
-            has_move = board_move_up(board);
+            has_move = board_move_down(board);
+            break;
+        case 67:  // right arrow
+            has_move = board_move_right(board);
+            break;
+        case 68:  // left arrow
+            has_move = board_move_left(board);
             break;
 	
         default:
@@ -74,6 +74,8 @@ int main(/* int argc, char *argv[] */) {
         }
 
         if (has_move) {
+            board_add_piece(board);
+
             clear();
             print_board(board);
         }
