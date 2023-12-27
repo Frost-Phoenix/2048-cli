@@ -36,6 +36,7 @@ void setBufferedInput(bool enable)
 }
 
 void print_board(u32 board[SIZE][SIZE]) {
+	clear();
     
     for (u32 i = 0; i < SIZE; i++) {
         for (u32 j = 0; j < SIZE; j++) {

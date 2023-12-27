@@ -11,6 +11,8 @@
 static bool _slide_col(u32 board[SIZE][SIZE], u8 c);
 // rotate the board 90 degres clockwise
 static void _rotate_board(u32 board[SIZE][SIZE]);
+static bool _empty_cells_left(u32 board[SIZE][SIZE]);
+static bool _can_slide_up(u32 board[SIZE][SIZE]);
 
 
 static bool _slide_col(u32 board[SIZE][SIZE], u8 c) {
@@ -39,12 +41,13 @@ static bool _slide_col(u32 board[SIZE][SIZE], u8 c) {
         if (board[last_cell][c] == board[r][c]) {
             board[last_cell][c] *= 2;
             board[r][c] = 0;
+            has_move = true;    
         } else if (last_cell + 1 != r) {
             board[last_cell + 1][c] = board[r][c];
             board[r][c] = 0;
+            has_move = true;    
         }
         
-        has_move = true;
         last_cell++;
     }
 
@@ -71,6 +74,30 @@ static void _rotate_board(u32 board[SIZE][SIZE]) {
     }
 }
 
+static bool _empty_cells_left(u32 board[SIZE][SIZE]) {
+
+    for (u8 r = 0; r < SIZE; r++) {
+        for (u8 c = 0; c < SIZE; c++) {
+            if (board[r][c] == 0)
+                return true;
+        }
+    }
+
+    return false;
+}
+
+static bool _can_slide_up(u32 board[SIZE][SIZE]) {
+
+    for (u8 c = 0; c < SIZE; c++) {
+        for (u8 r = 1; r < SIZE; r++) {
+            if (board[r][c] == board[r-1][c])
+                return true;
+        }
+    }
+
+    return false;
+}
+
 
 /******************************************************
  *                 Public functions                   *
@@ -88,7 +115,7 @@ void board_init(u32 board[SIZE][SIZE]) {
     board_add_piece(board);
 }
 
-bool board_add_piece(u32 board[SIZE][SIZE]) {
+void board_add_piece(u32 board[SIZE][SIZE]) {
 
     u32 len = SIZE * SIZE;
     u32 valid_cells[len][2];
@@ -104,15 +131,26 @@ bool board_add_piece(u32 board[SIZE][SIZE]) {
         }
     }
     
-    // if k == 0 there is no more empty cell
-    if (k == 0) return false; 
-    
     u32 cell = rand() % k;
     u32 r = valid_cells[cell][0];
     u32 c = valid_cells[cell][1];
     board[r][c] = (1 + (rand() % 10 == 0)) * 2;
+}
 
-    return true;
+bool board_can_move(u32 board[SIZE][SIZE]) {
+    if (_empty_cells_left(board)) return true;
+
+    if (_can_slide_up(board)) return true;
+
+    bool can_move = false;
+
+    _rotate_board(board);
+    can_move = _can_slide_up(board);
+    _rotate_board(board);
+    _rotate_board(board);
+    _rotate_board(board);
+
+    return can_move;
 }
 
 bool board_move_up(u32 board[SIZE][SIZE]) {

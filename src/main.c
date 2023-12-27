@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <signal.h>	  
+#include <unistd.h>	  // defines: STDIN_FILENO, usleep
 #include <time.h>
 
 #include "../include/commun.h"
@@ -39,8 +40,9 @@ int main(/* int argc, char *argv[] */) {
     print_board(board);
 
     char c;
-
-    while (true) {
+    bool run = true;
+    
+    while (run) {
         c = getchar();
         bool has_move;
 
@@ -74,10 +76,15 @@ int main(/* int argc, char *argv[] */) {
         }
 
         if (has_move) {
+            // print_board(board);
+            // usleep(100 * 1000); // 50 ms
             board_add_piece(board);
-
-            clear();
             print_board(board);
+
+            if (!board_can_move(board)) {
+                run = false;
+                break;
+            }
         }
         
     }
