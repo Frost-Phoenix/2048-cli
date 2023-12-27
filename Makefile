@@ -1,10 +1,10 @@
 # Compiler and flags
 CC := gcc
-CFLAGS := -Wall -Wextra -I./include
+CFLAGS := -Wall -Wextra
 
 # Source and object files
 SRC_DIR := ./src
-INCLUDE_DIR := ./include
+INCLUDE_DIR := ./include -lm
 BIN_DIR := ./bin
 SRC_FILES := $(wildcard $(SRC_DIR)/*.c)
 OBJ_FILES := $(patsubst $(SRC_DIR)/%.c, $(BIN_DIR)/%.o, $(SRC_FILES))
@@ -14,11 +14,11 @@ TARGET := 2048
 
 # Build rule
 $(BIN_DIR)/$(TARGET): $(OBJ_FILES)
-	$(CC) $(CFLAGS) $^ -o $@
+	$(CC) -I $(INCLUDE_DIR) $(CFLAGS) $^ -o $@
 
 # Compile source files
 $(BIN_DIR)/%.o: $(SRC_DIR)/%.c | $(BIN_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) -I $(INCLUDE_DIR) $(CFLAGS) -c $< -o $@
 
 # Create bin directory
 $(BIN_DIR):
