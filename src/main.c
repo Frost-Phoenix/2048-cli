@@ -18,7 +18,7 @@ void signal_callback_handler(int signum)
 }
 
 void setup() {
-    clear();
+    CLEAR;
     // make cursor invisible, erase entire screen
     printf("\033[?25l\033[2J");
     // init rng
@@ -55,24 +55,23 @@ int main(/* int argc, char *argv[] */) {
             break;
         }
         
-        switch (c)
-        {
-        case 65:  // up arrow
-            has_move = board_move_up(board);
-            break;
-        case 66:  // down arrow
-            has_move = board_move_down(board);
-            break;
-        case 67:  // right arrow
-            has_move = board_move_right(board);
-            break;
-        case 68:  // left arrow
-            has_move = board_move_left(board);
-            break;
-	
-        default:
-            has_move = false;
-            break;
+        switch (c) {
+            case 65:  // up arrow
+                has_move = board_move_up(board);
+                break;
+            case 66:  // down arrow
+                has_move = board_move_down(board);
+                break;
+            case 67:  // right arrow
+                has_move = board_move_right(board);
+                break;
+            case 68:  // left arrow
+                has_move = board_move_left(board);
+                break;
+        
+            default:
+                has_move = false;
+                break;
         }
 
         if (has_move) {

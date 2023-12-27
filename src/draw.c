@@ -1,6 +1,68 @@
 #include "../include/draw.h"
 
 
+#define CELL_WIDTH  11
+#define CELL_HEIGHT 5
+
+/******************************************************
+ *                 Private functions                  *
+ ******************************************************/
+
+static u32 _get_color(u32 nb);
+static void _print_cell(u32 nb, u8 r, u8 c);
+
+
+static u32 _get_color(u32 nb) {
+
+	switch (nb) {
+		case    2: return 7; // white
+		case    4: return 3; // yellow
+		case    8: return 2; // green
+		case   16: return 6; // cyan
+		case   32: return 4; // blue
+		case   64: return 5; // magenta
+		case  128: return 1; // red
+		case  256: return 4; // blue
+		case  512: return 6; // cyan
+		case 1024: return 2; // green
+		case 2048: return 3; // yellow
+	}
+
+	return -1;
+}
+
+static void _print_cell(u32 nb, u8 r, u8 c) {
+	if (nb == 0) {
+		SET_TEXT_COLOR(0); // black / darck gray		
+	} else {
+		SET_TEXT_COLOR(_get_color(nb));
+	}
+
+	u8 nb_spaces_before, nb_spaces_after;
+	if (nb < 10)         { nb_spaces_before = 4; nb_spaces_after = 4; }
+	else if (nb < 100)   { nb_spaces_before = 5; nb_spaces_after = 3; }
+	else if (nb < 1000)  { nb_spaces_before = 5; nb_spaces_after = 3; }
+	else if (nb < 10000) { nb_spaces_before = 6; nb_spaces_after = 2; }
+
+	// top half
+	MOVE_CURSOR(r * CELL_HEIGHT + 1, c * CELL_WIDTH + 1);
+	printf("╭────────╮\n");
+	MOVE_CURSOR(r * CELL_HEIGHT + 2, c * CELL_WIDTH + 1);
+	printf("│        │\n");
+	// middle part
+	MOVE_CURSOR(r * CELL_HEIGHT + 3, c * CELL_WIDTH + 1);
+	if (nb == 0) printf("│        │\n");
+	else printf("│%*d%*s│\n", nb_spaces_before, nb, nb_spaces_after, "");
+	// bottom half
+	MOVE_CURSOR(r * CELL_HEIGHT + 4, c * CELL_WIDTH + 1);
+	printf("│        │\n");
+	MOVE_CURSOR(r * CELL_HEIGHT + 5, c * CELL_WIDTH + 1);
+	printf("╰────────╯\n");
+
+	RESET_FORMATING;
+}
+
+
 /******************************************************
  *                 Public functions                   *
  ******************************************************/
@@ -36,15 +98,13 @@ void setBufferedInput(bool enable)
 }
 
 void print_board(u32 board[SIZE][SIZE]) {
-	clear();
+	CLEAR;
     
-    for (u32 i = 0; i < SIZE; i++) {
-        for (u32 j = 0; j < SIZE; j++) {
-            u32 nb = board[i][j];
-            if (nb == 0) printf(".\t");
-            else printf("%d\t", board[i][j]);
-        }
-        printf("\n\n\n");
-    }
+    for (u8 r = 0; r < SIZE; r++) {
+		for (u8 c = 0; c < SIZE; c++) {
+			_print_cell(board[r][c], r, c);
+		}
+	    printf("\n");
+	}
     printf("\n");
 }

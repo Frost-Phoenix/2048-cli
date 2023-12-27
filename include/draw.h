@@ -6,7 +6,10 @@
 #include "commun.h"
 
 
-#define clear() printf("\033[H\033[J")
+#define CLEAR printf("\033[H\033[J")
+#define SET_TEXT_COLOR(X)  printf("\033[1;3%dm", X);
+#define MOVE_CURSOR(R, C) printf("\033[%d;%dH", R, C)
+#define RESET_FORMATING printf("\033[0m");
 
 
 void setBufferedInput(bool enable);
