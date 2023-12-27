@@ -11,10 +11,15 @@
 #include "../include/draw.h"
 
 
-void signal_callback_handler(int signum)
+void signal_callback_handler()
 {
-	setBufferedInput(true);
-	exit(signum);
+    SET_TEXT_COLOR(RED);
+    printf("%*s\n", 26, "TERMINATED");
+    RESET_FORMATING;
+
+    setBufferedInput(true);
+
+    exit(EXIT_SUCCESS);
 }
 
 void setup() {
@@ -33,15 +38,16 @@ int main(/* int argc, char *argv[] */) {
 
     setup();
 
-    // printf("2048!\n\n");
-
+    char c;
+    u32 score = 0;
+    bool run = true;
     u32 board[SIZE][SIZE];
     board_init(board);
-    print_board(board);
 
-    char c;
-    bool run = true;
-    
+    print_score(score);
+    print_board(board);
+    print_indicators();
+
     while (run) {
         c = getchar();
         bool has_move;
@@ -57,16 +63,16 @@ int main(/* int argc, char *argv[] */) {
         
         switch (c) {
             case 65:  // up arrow
-                has_move = board_move_up(board);
+                has_move = board_move_up(board, &score);
                 break;
             case 66:  // down arrow
-                has_move = board_move_down(board);
+                has_move = board_move_down(board, &score);
                 break;
             case 67:  // right arrow
-                has_move = board_move_right(board);
+                has_move = board_move_right(board, &score);
                 break;
             case 68:  // left arrow
-                has_move = board_move_left(board);
+                has_move = board_move_left(board, &score);
                 break;
         
             default:
@@ -75,10 +81,11 @@ int main(/* int argc, char *argv[] */) {
         }
 
         if (has_move) {
-            // print_board(board);
-            // usleep(100 * 1000); // 50 ms
             board_add_piece(board);
+
+            print_score(score);
             print_board(board);
+            print_indicators();
 
             if (!board_can_move(board)) {
                 run = false;

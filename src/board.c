@@ -8,14 +8,14 @@
  *                 Private functions                  *
  ******************************************************/
 
-static bool _slide_col(u32 board[SIZE][SIZE], u8 c);
+static bool _slide_col(u32 board[SIZE][SIZE], u8 c, u32 *score);
 // rotate the board 90 degres clockwise
 static void _rotate_board(u32 board[SIZE][SIZE]);
 static bool _empty_cells_left(u32 board[SIZE][SIZE]);
 static bool _can_slide_up(u32 board[SIZE][SIZE]);
 
 
-static bool _slide_col(u32 board[SIZE][SIZE], u8 c) {
+static bool _slide_col(u32 board[SIZE][SIZE], u8 c, u32 *score) {
 
     bool has_move = false;
     i32 last_cell = board[0][c] == 0 ? -1 : 0;
@@ -40,6 +40,7 @@ static bool _slide_col(u32 board[SIZE][SIZE], u8 c) {
         
         if (board[last_cell][c] == board[r][c]) {
             board[last_cell][c] *= 2;
+            *score += board[last_cell][c];
             board[r][c] = 0;
             has_move = true;    
         } else if (last_cell + 1 != r) {
@@ -153,42 +154,42 @@ bool board_can_move(u32 board[SIZE][SIZE]) {
     return can_move;
 }
 
-bool board_move_up(u32 board[SIZE][SIZE]) {
+bool board_move_up(u32 board[SIZE][SIZE], u32 *score) {
 
     bool has_move = false;
     
     for (u8 c = 0; c < SIZE; c++) {
-        has_move |= _slide_col(board, c);
+        has_move |= _slide_col(board, c, score);
     }
     
     return has_move;
 }
 
-bool board_move_down(u32 board[SIZE][SIZE]) {
+bool board_move_down(u32 board[SIZE][SIZE], u32 *score) {
     _rotate_board(board);
     _rotate_board(board);
-    bool has_move = board_move_up(board);
-    _rotate_board(board);
-    _rotate_board(board);
-
-    return has_move;
-}
-
-bool board_move_left(u32 board[SIZE][SIZE]) {
-    _rotate_board(board);
-    bool has_move = board_move_up(board);
-    _rotate_board(board);
+    bool has_move = board_move_up(board, score);
     _rotate_board(board);
     _rotate_board(board);
 
     return has_move;
 }
 
-bool board_move_right(u32 board[SIZE][SIZE]) {
+bool board_move_left(u32 board[SIZE][SIZE], u32 *score) {
+    _rotate_board(board);
+    bool has_move = board_move_up(board, score);
     _rotate_board(board);
     _rotate_board(board);
     _rotate_board(board);
-    bool has_move = board_move_up(board);
+
+    return has_move;
+}
+
+bool board_move_right(u32 board[SIZE][SIZE], u32 *score) {
+    _rotate_board(board);
+    _rotate_board(board);
+    _rotate_board(board);
+    bool has_move = board_move_up(board, score);
     _rotate_board(board);
 
     return has_move;

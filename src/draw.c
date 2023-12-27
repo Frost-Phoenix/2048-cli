@@ -1,39 +1,47 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <unistd.h>	      // defines: STDIN_FILENO, usleep
+#include <termios.h>	  // defines: termios, TCSANOW, ICANON, ECHO
+#include <math.h>
+
 #include "../include/draw.h"
 
 
 #define CELL_WIDTH  11
 #define CELL_HEIGHT 5
+#define ROW_OFFCET  2
+
 
 /******************************************************
  *                 Private functions                  *
  ******************************************************/
 
-static u32 _get_color(u32 nb);
+static Color _get_color(u32 nb);
 static void _print_cell(u32 nb, u8 r, u8 c);
 
 
-static u32 _get_color(u32 nb) {
+static Color _get_color(u32 nb) {
 
 	switch (nb) {
-		case    2: return 7; // white
-		case    4: return 3; // yellow
-		case    8: return 2; // green
-		case   16: return 6; // cyan
-		case   32: return 4; // blue
-		case   64: return 5; // magenta
-		case  128: return 1; // red
-		case  256: return 4; // blue
-		case  512: return 6; // cyan
-		case 1024: return 2; // green
-		case 2048: return 3; // yellow
+		case    2: return WHITE;
+		case    4: return YELLOW;
+		case    8: return GREEN;
+		case   16: return CYAN;
+		case   32: return BLUE;
+		case   64: return MAGENTA;
+		case  128: return RED;
+		case  256: return BLUE;
+		case  512: return CYAN;
+		case 1024: return GREEN;
+		case 2048: return YELLOW;
 	}
 
-	return -1;
+	return WHITE;
 }
 
 static void _print_cell(u32 nb, u8 r, u8 c) {
 	if (nb == 0) {
-		SET_TEXT_COLOR(0); // black / darck gray		
+		SET_TEXT_COLOR(BLACK);		
 	} else {
 		SET_TEXT_COLOR(_get_color(nb));
 	}
@@ -45,18 +53,18 @@ static void _print_cell(u32 nb, u8 r, u8 c) {
 	else if (nb < 10000) { nb_spaces_before = 6; nb_spaces_after = 2; }
 
 	// top half
-	MOVE_CURSOR(r * CELL_HEIGHT + 1, c * CELL_WIDTH + 1);
+	MOVE_CURSOR(r * CELL_HEIGHT + ROW_OFFCET + 1, c * CELL_WIDTH + 1);
 	printf("╭────────╮\n");
-	MOVE_CURSOR(r * CELL_HEIGHT + 2, c * CELL_WIDTH + 1);
+	MOVE_CURSOR(r * CELL_HEIGHT + ROW_OFFCET + 2, c * CELL_WIDTH + 1);
 	printf("│        │\n");
 	// middle part
-	MOVE_CURSOR(r * CELL_HEIGHT + 3, c * CELL_WIDTH + 1);
+	MOVE_CURSOR(r * CELL_HEIGHT + ROW_OFFCET + 3, c * CELL_WIDTH + 1);
 	if (nb == 0) printf("│        │\n");
 	else printf("│%*d%*s│\n", nb_spaces_before, nb, nb_spaces_after, "");
 	// bottom half
-	MOVE_CURSOR(r * CELL_HEIGHT + 4, c * CELL_WIDTH + 1);
+	MOVE_CURSOR(r * CELL_HEIGHT + ROW_OFFCET + 4, c * CELL_WIDTH + 1);
 	printf("│        │\n");
-	MOVE_CURSOR(r * CELL_HEIGHT + 5, c * CELL_WIDTH + 1);
+	MOVE_CURSOR(r * CELL_HEIGHT + ROW_OFFCET + 5, c * CELL_WIDTH + 1);
 	printf("╰────────╯\n");
 
 	RESET_FORMATING;
@@ -97,8 +105,29 @@ void setBufferedInput(bool enable)
 	}
 }
 
-void print_board(u32 board[SIZE][SIZE]) {
+void print_score(u32 score) {
 	CLEAR;
+
+	static u32 last_score = 0;
+
+	SET_TEXT_COLOR(YELLOW); printf(" Score"); RESET_FORMATING;
+
+	if (score - last_score != 0) {
+		SET_TEXT_COLOR(GREEN);
+		u32 len = snprintf(NULL, 0, "  + %d", score - last_score);
+		printf("  + %d", score - last_score);
+		RESET_FORMATING;
+		printf("%*d", 32 - len, score);
+	} else {
+		printf("%*d", 32, score);
+	}
+
+	printf(" pts");
+
+	last_score = score;
+}
+
+void print_board(u32 board[SIZE][SIZE]) {
     
     for (u8 r = 0; r < SIZE; r++) {
 		for (u8 c = 0; c < SIZE; c++) {
@@ -106,5 +135,24 @@ void print_board(u32 board[SIZE][SIZE]) {
 		}
 	    printf("\n");
 	}
-    printf("\n");
+}
+
+void print_indicators(void) {
+
+	printf("%*s", 25, "↑\n");
+	printf("%*s", 30, "← ↓ →");
+
+	MOVE_CURSOR(25, 2);
+	SET_TEXT_COLOR(GREEN);
+	printf("R");
+	RESET_FORMATING;
+	printf("estart");
+
+	MOVE_CURSOR(25, 39);
+	SET_TEXT_COLOR(RED);
+	printf("Q");
+	RESET_FORMATING;
+	printf("uit");
+
+	printf("\n");
 }
