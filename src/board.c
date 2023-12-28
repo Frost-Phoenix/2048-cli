@@ -154,6 +154,19 @@ bool board_can_move(u32 board[SIZE][SIZE]) {
     return can_move;
 }
 
+bool board_win(u32 board[SIZE][SIZE]) {
+
+    for (u32 i = 0; i < SIZE; i++) {
+        for (u32 j = 0; j < SIZE; j++) {
+            if (board[i][j] == 2048) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 bool board_move_up(u32 board[SIZE][SIZE], u32 *score) {
 
     bool has_move = false;

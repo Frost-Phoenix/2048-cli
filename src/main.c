@@ -98,6 +98,17 @@ int main(/* int argc, char *argv[] */) {
             if (!board_can_move(board)) {
                 run = false;
                 break;
+            } else if (board_win(board)) {
+                MOVE_CURSOR(1, 18);
+                SET_TEXT_COLOR(CYAN);
+                printf("You win !");
+                RESET_FORMATING;
+
+                print_board(board);
+                print_indicators();
+
+                run = false;
+                break;
             }
         }
         
