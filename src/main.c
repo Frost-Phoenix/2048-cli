@@ -57,8 +57,16 @@ int main(/* int argc, char *argv[] */) {
             break;
         } else if (c == 27 || c == 91) {
             continue;
-        } else if (c == 'q') {
+        } else if (c == 'q' || c == 'Q') {
             break;
+        } else if (c == 'r' || c == 'R') {
+            score = 0;
+            board_init(board);
+            print_score(score);
+            print_score(score);
+            print_board(board);
+            print_indicators();
+            continue;
         }
         
         switch (c) {
