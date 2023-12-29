@@ -37,7 +37,7 @@ The goal of the game is to combine number tiles by moving them in different dire
 2. Navigate to the project directory:
     ```bash
     git clone https://github.com/Frost-Phoenix/2048-cli.git
-    cd 2048-terminal-game
+    cd 2048-cli
     ```
 3. Build then run the game:
     ```bash
