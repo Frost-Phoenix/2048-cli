@@ -4,7 +4,7 @@ CFLAGS := -Wall -Wextra
 
 # Source and object files
 SRC_DIR := ./src
-INCLUDE_DIR := ./include -lm
+INCLUDE_DIR := ./include
 BIN_DIR := ./bin
 SRC_FILES := $(wildcard $(SRC_DIR)/*.c)
 OBJ_FILES := $(patsubst $(SRC_DIR)/%.c, $(BIN_DIR)/%.o, $(SRC_FILES))

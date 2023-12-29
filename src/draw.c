@@ -2,7 +2,6 @@
 #include <stdbool.h>
 #include <unistd.h>	      // defines: STDIN_FILENO, usleep
 #include <termios.h>	  // defines: termios, TCSANOW, ICANON, ECHO
-#include <math.h>
 
 #include "../include/draw.h"
 
