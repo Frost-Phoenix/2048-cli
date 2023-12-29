@@ -42,15 +42,17 @@ int main(/* int argc, char *argv[] */) {
     u32 score = 0;
     bool run = true;
     u32 board[SIZE][SIZE];
+    u32 last_board[SIZE][SIZE];
     board_init(board);
-
+    board_init(last_board);
+    
     print_score(score);
     print_board(board);
     print_indicators();
 
     while (run) {
         c = getchar();
-        bool has_move;
+        bool has_move = false;
 
         if (c == -1) {
             puts("\nError! Cannot read keyboard input!");
@@ -67,8 +69,16 @@ int main(/* int argc, char *argv[] */) {
             print_board(board);
             print_indicators();
             continue;
+        } else if (c == 'b') {
+            memcpy(board, last_board, sizeof(board));
+            print_score(score);
+            print_board(board);
+            print_indicators();
+            continue;
         }
         
+        memcpy(last_board, board, sizeof(board));
+
         switch (c) {
             case 65:  // up arrow
                 has_move = board_move_up(board, &score);
@@ -81,10 +91,6 @@ int main(/* int argc, char *argv[] */) {
                 break;
             case 68:  // left arrow
                 has_move = board_move_left(board, &score);
-                break;
-        
-            default:
-                has_move = false;
                 break;
         }
 

@@ -142,12 +142,21 @@ void print_indicators(void) {
 	printf("%*s", 25, "↑\n");
 	printf("%*s", 30, "← ↓ →");
 
+	// back
+	MOVE_CURSOR(24, 2);
+	SET_TEXT_COLOR(CYAN);
+	printf("B");
+	RESET_FORMATING;
+	printf("ack");
+	
+	// restart
 	MOVE_CURSOR(25, 2);
 	SET_TEXT_COLOR(GREEN);
 	printf("R");
 	RESET_FORMATING;
 	printf("estart");
 
+	// quit
 	MOVE_CURSOR(25, 39);
 	SET_TEXT_COLOR(RED);
 	printf("Q");
