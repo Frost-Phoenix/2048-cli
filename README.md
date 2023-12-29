@@ -2,7 +2,7 @@
 
 A simple implementation of the classic 2048 game in C, designed to run in the terminal.
 
-<img src=".github/assets/gameplay.gif" width="300" alt="Gameplay Gif">
+<img src=".github/assets/gameplay.gif" width="250" alt="Gameplay Gif">
 
 ## Table of Contents
 
