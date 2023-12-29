@@ -24,7 +24,9 @@ void setBufferedInput(bool enable);
 
 void print_score(u32 score);
 void print_board(u32 board[SIZE][SIZE]);
-void print_indicators(void); 
+void print_indicators(void);
+void print_win(void);
+void print_game_over(void);
 
 
 #endif

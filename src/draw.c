@@ -164,3 +164,17 @@ void print_indicators(void) {
 
 	printf("\n");
 }
+
+void print_win(void) {
+	MOVE_CURSOR(1, 18);
+	SET_TEXT_COLOR(CYAN);
+	printf("You win !");
+	RESET_FORMATING;
+}
+
+void print_game_over(void) {
+	MOVE_CURSOR(1, 18);
+	SET_TEXT_COLOR(RED);
+	printf("GAME OVER");
+	RESET_FORMATING;
+}
