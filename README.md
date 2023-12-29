@@ -10,6 +10,8 @@ A simple implementation of the classic 2048 game in C, designed to run in the te
 - [How to Play](#how-to-play)
 - [Requirements](#requirements)
 - [Build and Run](#build-and-run)
+- [Install](#install)
+- [Uninstall](#uninstall)
 - [Credits](#credits)
 - [License](#license)
 
@@ -48,6 +50,24 @@ The goal of the game is to combine number tiles by moving them in different dire
     make run
     ```
 5. Use arrow keys to play, and enjoy the game!
+
+## Install
+
+To install the game and make it available system-wide, use the following commands:
+
+```bash
+sudo make install
+```
+The game will be installed in the default location (/usr/local/bin). If you wish to install it in a different location, modify the INSTALL_DIR variable in the Makefile before running the install command.
+
+## Uninstall
+
+To uninstall the game, use the following command:
+
+```bash
+sudo make uninstall
+```
+This will remove the game executable and header files if they were installed.
 
 ## Credits
 
