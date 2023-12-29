@@ -31,14 +31,19 @@ The goal of the game is to combine number tiles by moving them in different dire
 
 1. Clone the repository:
 2. Navigate to the project directory:
-3. Build the game:
-4. Run the game:
-
     ```bash
-    git clone https://github.com/your-username/2048-terminal-game.git
+    git clone https://github.com/Frost-Phoenix/2048-cli.git
     cd 2048-terminal-game
+    ```
+3. Build then run the game:
+    ```bash
     make
     ./bin/2048
+    ```
+ - Or build and run with:
+
+    ```bash
+    make run
     ```
 5. Use arrow keys to play, and enjoy the game!
 
