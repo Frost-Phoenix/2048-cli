@@ -42,9 +42,10 @@ int main(/* int argc, char *argv[] */) {
     u32 score = 0;
     bool run = true;
     u32 board[SIZE][SIZE];
+    u32 tmp_board[SIZE][SIZE];
     u32 last_board[SIZE][SIZE];
     board_init(board);
-    board_init(last_board);
+    memcpy(last_board, board, sizeof(board));
     
     print_score(score);
     print_board(board);
@@ -70,14 +71,16 @@ int main(/* int argc, char *argv[] */) {
             print_indicators();
             continue;
         } else if (c == 'b') {
+            // undo last move
             memcpy(board, last_board, sizeof(board));
             print_score(score);
             print_board(board);
             print_indicators();
             continue;
         }
-        
-        memcpy(last_board, board, sizeof(board));
+
+        // save current board tp a tmp buffer
+        memcpy(tmp_board, board, sizeof(board));
 
         switch (c) {
             case 65:  // up arrow
@@ -95,6 +98,9 @@ int main(/* int argc, char *argv[] */) {
         }
 
         if (has_move) {
+            // save the current board
+            memcpy(last_board, tmp_board, sizeof(board));
+
             board_add_piece(board);
 
             print_score(score);
@@ -116,8 +122,7 @@ int main(/* int argc, char *argv[] */) {
                 run = false;
                 break;
             }
-        }
-        
+        } 
     }
 
     // restore terminal settings
