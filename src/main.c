@@ -6,7 +6,7 @@
 #include <unistd.h>	  // defines: STDIN_FILENO, usleep
 #include <time.h>
 
-#include "../include/commun.h"
+#include "../include/common.h"
 #include "../include/board.h"
 #include "../include/draw.h"
 

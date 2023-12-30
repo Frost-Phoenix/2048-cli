@@ -1,7 +1,7 @@
 #ifndef DRAW_H
 #define DRAW_H
 
-#include "commun.h"
+#include "common.h"
 
 
 #define CLEAR              printf("\033[H\033[J")

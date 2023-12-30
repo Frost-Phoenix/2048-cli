@@ -1,7 +1,7 @@
 #ifndef BOARD_H
 #define BOARD_H
 
-#include "commun.h"
+#include "common.h"
 
 
 void board_init(u32 board[SIZE][SIZE]);
