@@ -1,6 +1,6 @@
 # 2048 Terminal Game
 
-A simple implementation of the classic 2048 game in C, designed to run in the terminal.
+A simple implementation of the classic 2048 game in C made for GNU/Linux, designed to run in the terminal.
 
 <img src=".github/assets/gameplay.gif" width="350" alt="Gameplay Gif">
 
@@ -30,6 +30,8 @@ The goal of the game is to combine number tiles by moving them in different dire
 
 - GNU Make
 - C compiler (GCC or Clang)
+
+Tested on: GNU/Linux, NixOs, Ubuntu, PopOs
 
 ## Build and Run
 
