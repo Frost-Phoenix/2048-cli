@@ -49,13 +49,11 @@ run: debug
 
 # Install the executable
 install: release
-	@echo "Installing $(TARGET) to $(INSTALL_DIR)"
-	@cp $(BIN_DIR)/$(TARGET) $(INSTALL_DIR)
+	cp $(BIN_DIR)/$(TARGET) $(INSTALL_DIR)
 
 # Uninstall the executable
 uninstall:
-	@echo "Uninstalling $(TARGET) from $(INSTALL_DIR)"
-	@rm -f $(INSTALL_DIR)/$(TARGET)
+	rm -f $(INSTALL_DIR)/$(TARGET)
 
 # Clean up
 clean:
