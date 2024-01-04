@@ -8,14 +8,14 @@
  *                 Private functions                  *
  ******************************************************/
 
-static bool _slide_col(u32 board[SIZE][SIZE], u8 c, u32 *score);
+static bool _slide_col(u32 board[SIZE][SIZE], u8 c, u32* score);
 // rotate the board 90 degres clockwise
 static void _rotate_board(u32 board[SIZE][SIZE]);
 static bool _empty_cells_left(u32 board[SIZE][SIZE]);
 static bool _can_slide_up(u32 board[SIZE][SIZE]);
 
 
-static bool _slide_col(u32 board[SIZE][SIZE], u8 c, u32 *score) {
+static bool _slide_col(u32 board[SIZE][SIZE], u8 c, u32* score) {
 
     bool has_move = false;
     i32 last_cell = board[0][c] == 0 ? -1 : 0;
@@ -37,18 +37,19 @@ static bool _slide_col(u32 board[SIZE][SIZE], u8 c, u32 *score) {
             has_move = true;
             continue;
         }
-        
+
         if (board[last_cell][c] == board[r][c]) {
             board[last_cell][c] *= 2;
             *score += board[last_cell][c];
             board[r][c] = 0;
-            has_move = true;    
-        } else if (last_cell + 1 != r) {
+            has_move = true;
+        }
+        else if (last_cell + 1 != r) {
             board[last_cell + 1][c] = board[r][c];
             board[r][c] = 0;
-            has_move = true;    
+            has_move = true;
         }
-        
+
         last_cell++;
     }
 
@@ -91,7 +92,7 @@ static bool _can_slide_up(u32 board[SIZE][SIZE]) {
 
     for (u8 c = 0; c < SIZE; c++) {
         for (u8 r = 1; r < SIZE; r++) {
-            if (board[r][c] == board[r-1][c])
+            if (board[r][c] == board[r - 1][c])
                 return true;
         }
     }
@@ -131,7 +132,7 @@ void board_add_piece(u32 board[SIZE][SIZE]) {
             k++;
         }
     }
-    
+
     u32 cell = rand() % k;
     u32 r = valid_cells[cell][0];
     u32 c = valid_cells[cell][1];
@@ -139,8 +140,8 @@ void board_add_piece(u32 board[SIZE][SIZE]) {
 }
 
 bool board_can_move(u32 board[SIZE][SIZE]) {
-    if (_empty_cells_left(board)) return true;
 
+    if (_empty_cells_left(board)) return true;
     if (_can_slide_up(board)) return true;
 
     bool can_move = false;
@@ -167,18 +168,18 @@ bool board_win(u32 board[SIZE][SIZE]) {
     return false;
 }
 
-bool board_move_up(u32 board[SIZE][SIZE], u32 *score) {
+bool board_move_up(u32 board[SIZE][SIZE], u32* score) {
 
     bool has_move = false;
-    
+
     for (u8 c = 0; c < SIZE; c++) {
         has_move |= _slide_col(board, c, score);
     }
-    
+
     return has_move;
 }
 
-bool board_move_down(u32 board[SIZE][SIZE], u32 *score) {
+bool board_move_down(u32 board[SIZE][SIZE], u32* score) {
     _rotate_board(board);
     _rotate_board(board);
     bool has_move = board_move_up(board, score);
@@ -188,7 +189,7 @@ bool board_move_down(u32 board[SIZE][SIZE], u32 *score) {
     return has_move;
 }
 
-bool board_move_left(u32 board[SIZE][SIZE], u32 *score) {
+bool board_move_left(u32 board[SIZE][SIZE], u32* score) {
     _rotate_board(board);
     bool has_move = board_move_up(board, score);
     _rotate_board(board);
@@ -198,7 +199,7 @@ bool board_move_left(u32 board[SIZE][SIZE], u32 *score) {
     return has_move;
 }
 
-bool board_move_right(u32 board[SIZE][SIZE], u32 *score) {
+bool board_move_right(u32 board[SIZE][SIZE], u32* score) {
     _rotate_board(board);
     _rotate_board(board);
     _rotate_board(board);
