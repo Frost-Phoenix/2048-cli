@@ -69,7 +69,7 @@ To uninstall the game, use the following command:
 ```bash
 sudo make uninstall
 ```
-This will remove the game executable and header files if they were installed.
+This will remove the game executable form the INSTALL_DIR.
 
 ## Credits
 
